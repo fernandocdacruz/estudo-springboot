@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuários</title>
+</head>
+<body>
+    <h1>Cadastro de Usuários</h1>
+
+    <h2>Criar usuário</h2>
+    <form id="usuarioForm">
+        <input type="number" id="id" placeholder="ID" required><br>
+        <input type="text" id="nome" placeholder="Nome" required><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Lista de Usuários</h2>
+    <ul id="listaUsuarios"></ul>
+
+    <script>
+        const form = document.getElementById("usuarioForm");
+        const listaUsuarios = document.getElementById("listaUsuarios");
+        const apiUrl = "http://localhost:8080/usuarios"; // endpoint do Spring Boot
+
+        // Função para atualizar a lista de usuários
+        function atualizarLista() {
+            fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                listaUsuarios.innerHTML = "";
+                data.forEach(u => {
+                    const li = document.createElement("li");
+                    li.textContent = `${u.id} - ${u.nome}`;
+                    listaUsuarios.appendChild(li);
+                });
+            });
+        }
+
+        // Inicializa lista
+        atualizarLista();
+
+        // Envia novo usuário via POST
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const usuario = {
+                id: Number(document.getElementById("id").value),
+                nome: document.getElementById("nome").value
+            };
+
+            fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(usuario)
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(`Usuário ${data.nome} criado!`);
+                form.reset();
+                atualizarLista(); // atualiza a lista
+            })
+            .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
