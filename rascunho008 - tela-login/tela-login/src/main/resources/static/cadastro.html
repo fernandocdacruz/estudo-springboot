@@ -8,9 +8,25 @@
 <body>
     <head><h1>Faça seu cadastro!</h1></head>
     <main>
-        <section id="form-cadastro">
-            
+        <section id="containerCadastro">
+            <form id="formCadastro">
+                <label for="inNome">Nome: 
+                    <input type="text" id="inNome" required>
+                </label>
+                <label for="inLogin">Login: 
+                    <input type="text" id="inLogin" required>
+                </label>
+                <label for="inSenha">Senha: 
+                    <input type="text" id="inSenha" required>
+                </label>
+                <section id="btns-cadastro">
+                    <button type="submit">Enviar</button>
+                    <button type="reset">Limpar</button>
+                </section>
+            </form>
+            <a href="index.html">voltar</a>
         </section>
     </main>
+    <script src="scriptCadastro.js"></script>
 </body>
 </html>
